@@ -9,4 +9,3 @@
 ## These are Mmust solve system design questions 
 
 ## Many more system design prep is coming
-# Please fork it
