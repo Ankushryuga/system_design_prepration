@@ -6,6 +6,6 @@
 3. https://leetdesign.com/
 
 
-## These are Mmust solve system design questions 
+## These are Must solve system design questions 
 
 ## Many more system design prep is coming
