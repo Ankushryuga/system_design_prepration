@@ -11,7 +11,7 @@
 ## Many more system design prep is coming
 
 > [!IMPORTANT]
-> Foundations (3–4 weeks)
+> Foundations ( complete in 3–4 weeks)
 > 1. Core concepts: Latency vs throughput, scalability, availability, partition tolerance (CAP), consistency models, replication, sharding, leader vs follower, quorum.
 > 2. Data systems: RDBMS vs NoSQL, when to use each, indexing, transactions, ACID vs BASE.
 > 3. Caching & CDNs: cache hits/misses, TTL, cache invalidation, prefetching, CDN basics.
