@@ -1,4 +1,4 @@
-# system_design_prepration
+# System Design Guide
 
 ## More Resources For System Design:
 1. https://dev.to/somadevtoo/6-system-design-interview-problems-for-practice-4fl8
