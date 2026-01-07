@@ -373,6 +373,206 @@ Following are some of the load balancing solutions commonly used in the industry
 - [Nginx](https://www.nginx.com)
 - [HAProxy](http://www.haproxy.org)
 
+## Clustering
+
+At a high level, a computer cluster is group of two or more computers, or nodes, that run in parallel to achieve a common goal. This allows workloads consisting of a high number of individual, parallelizable tasks to be distributed among the nodes in the cluster. As a result, these tasks can leaverage the combined memory and processing power of each computer to increase overall performance.
+
+To build a computer cluster, the individual nodes should be connected to a network to enable internode communication. The software can then be used to join the nodes together and form a cluster. It may have a shared storage device and/or local stoage on each node.
+
+![cluster](https://raw.githubusercontent.com/karanpratapsingh/portfolio/master/public/static/courses/system-design/chapter-I/clustering/cluster.png)
+
+Normally, at least one node is designated as the leader node and acts as the entry point to the cluster. The leader node may be responsible for delegating incoming work to the other nodes and, if necessary, aggregating the results and returning a response to the user.
+
+Ideally, a cluster functions as if it were a signle system. A user accessing the cluster should not need to know whether the system is a cluster or individual machine. Furthermore, a cluster should be minimize latency and prevent bottlenecks in node-to-node communication.
+
+### Clustering Types
+
+Computer clusters can generally be categorized into three types:
+
+- Highly available or fail-over
+- Load balancing
+- High-performance computing
+
+### Clusring Configurations
+
+The two most commonly used high availability (HA) clustering configurations are active-active and active-passive.
+
+#### Active-Active
+
+![active-active](https://raw.githubusercontent.com/karanpratapsingh/portfolio/master/public/static/courses/system-design/chapter-I/clustering/active-active.png)
+
+An active-active cluster is typically made up of at least two nodes, both actively running the same kind of service simultaneously. The main purpose of an active-active cluster is to achieve load balancing. A load balancer distributes workloads across all nodes to prevent any single node from getting overloaded. Because there are more nodes available to service, there will also be an improvement in throughput and response times.
+
+#### Active-Passive
+
+![active-passive](https://raw.githubusercontent.com/karanpratapsingh/portfolio/master/public/static/courses/system-design/chapter-I/clustering/active-passive.png)
+
+Like the active-active cluster configuration, an active-passive cluster also consists of at least two nodes. However, as the name _active-passive_ implies, not all nodes are going to be active. For example, in the case of two nodes, if the first node is already active, then the second node must be passive or on standby.
+
+### Advantages
+
+Four key advantages of cluster computing are as follows.
+
+- High availability
+- Scalability
+- Performance
+- Cost-effective
+
+### Load balancing vs Clustering
+
+Load balancing shares some common traits with clustering, but they are different processes.
+Clustering provides redundancy and boosts capacity and availability. Servers in a cluster are aware of each other and work together toward a common purpose. But with load balancing, servers are not aware of each other. Instead, they react to the requests they receive from the load balancer.
+
+we can employ load balancing in conjunction with clustering, but it also is applicable in cases involving independent servers that shares a common purpose such as to run a website, business application, web service, or some other IT resource.
+
+### Challenges
+
+The most obvious challenge clustering presents is the increased complexity of installation and maintenance. An operating system, the application, and its dependencies must each be installed and updated on every node.
+
+This becomes even more complicated if the nodes in the cluster are not homogeneous. Resource utilization for each node must also be closely monitored, and logs should aggregated to ensure that the software is behaving correctly.
+
+Additionally, storage becomes more difficult to manage, a shared storage device must prevent nodes from overwriting one another and distributed data stores have to be kept in sync.
+
+### Clustring Examples
+
+Clustering is commonly used in the industry, and often many technogies offer some sort of clustering mode. For example:
+
+- Containers (e.g. [Kubernetes](https://kubernetes.io), [Amazon ECS](https://aws.amazon.com/ecs))
+- Databases (e.g. [Cassandra](https://cassandra.apache.org/_/index.html), [MongoDB](https://www.mongodb.com))
+- Cache (e.g. [Redis](https://redis.io/docs/manual/scaling))
+
+## Caching
+
+![caching](https://raw.githubusercontent.com/karanpratapsingh/portfolio/master/public/static/courses/system-design/chapter-I/caching/caching.png)
+
+A cache's primary purpose is to increase data retrieval performance by reducing the need to access the underlying slower storage layer. Trading off capacity for speed, a cache typically stores a subset of data transiently, in contrast to databases whose data is usually complete and durable.
+
+Caches take advantage of the locality of reference principle _"recently requested data is likely to be requested again"._
+
+### Caching and Memory
+
+Like a computer's memory, a cache is a compact, fast-performing memory that stores data in a hierarchy of levels, starting at level one, and progressing from there sequentially. They are labeled as L1, L2, L3, and so on. A cache also gets written if requested, such as when there has been an update and new content needs to be saved to the cache, replacing the older content that was saved.
+
+No matter whether the cache is read or written, it's done one block at a time. Each block also has a tag that includes the location where the data was stored in the cache. When data is requested from the cache, a search occurs through the tags to find the specific content that's needed in level one (L1) of the memory. If the correct data isn't found, more searches are conducted in L2.
+
+If the data isn't found there, searches are continued in L3, then L4, and so on until it has been found, then, it's read and loaded. If the data isn't found in the cache at all, then it's written into it for quick retrieval the next time.
+
+### Cache hit and Cache miss
+
+#### Cache hit
+
+A cache hit describes the situation where content is successfully served from the cache. The tags are searched in the memory rapidly, and when the data is found and read, it's considered a cache hit.
+
+> [!IMPORTANT]
+> Cold, Warm, and Hot Caches
+
+A cache hit can also be described as cold, warm, or hot. In each of these, the speed at which the data is read is described.
+
+A hot cache is an instance where data was read from the memory at the _fastest_ possible rate. This happens when the data is retrieved from L1.
+
+A cold cache is the _slowest_ possible rate for data to be read, though, it's still successful so it's still considered a cache hit. The data is just found lower in the memory hierarchy such as in L3, or lower.
+
+A warm cache is used to describe data that's found in L2 or L3. It's not as fast as a hot cache, but it's still faster than a cold cache. Generally, calling a cache warm is used to express that it's slower and closer to a cold cache than a hot one.
+
+#### Cache miss
+
+A cache miss refers to the instance when the memory is searched, and the data isn't found. When this happens, the content is transferred and written into the cache.
+
+### Cache Invalidation
+
+Cache invalidation is a process where the computer system declares the cache entries as invalid and removes or replaces them. If the data is modified, it should be invalidated in the cache, if not, this can cause inconsistent application behavior. There are three kinds of caching systems:
+
+#### Write-through cache
+
+![write-through-cache](https://raw.githubusercontent.com/karanpratapsingh/portfolio/master/public/static/courses/system-design/chapter-I/caching/write-through-cache.png)
+
+Data is written into the cache and the corresponding database simultaneously.
+
+**Pro**: Fast retrieval, complete data consistency between cache and storage.
+
+**Con**: Higher latency for write operations.
+
+#### Write-around cache
+
+![write-around-cache](https://raw.githubusercontent.com/karanpratapsingh/portfolio/master/public/static/courses/system-design/chapter-I/caching/write-around-cache.png)
+
+Where write directly goes to the database or permanent storage, bypassing the cache.
+
+**Pro**: This may reduce latency.
+
+**Con**: It increases caches misses because the cache system has to read the information from the database in case of a cache miss. As a result, this can lead to higher read latency in the case of applications that write and re-read the information quickly. Read happen from slower back-end storage and experience higher latency.
+
+#### Write-back cache
+
+![write-back-cache](https://raw.githubusercontent.com/karanpratapsingh/portfolio/master/public/static/courses/system-design/chapter-I/caching/write-back-cache.png)
+
+Where the write is only done to the caching layer and the write is confirmed as soon as the write to the cache completes. The cache then asynchrnously syncs this write to the database.
+
+**Pro**: This would lead to reduced latency and high throughput foor write-intensive applications
+
+**Con**: There is a risk of data loss in case the caching layer crashes. we can improve this by having one replica acknowleding the write in the cache.
+
+### Eviction Policies
+
+Following are some of the most common cache eviction policies:
+
+- **First In First Out (FIFO)**: The cache evicts the first block accessed first without any regard to how often or how many times it was accessed before.
+- **Last In First Out (LIFO)**: The cache evicts the block accessed most recently first without any regard to how often or how many times it was accessed before.
+- **Least Recently Used (LRU)**: Discards the least recently used items first.
+- **Most Recently Used (MRU)**: Discards, in contrast to LRU, the most recently used items first.
+- **Least Frequently Used (LFU)**: Counts how often an item is needed. Those that are used least often are discarded first.
+- **Random Replacement (RR)**: Randomly selects a candidate item and discards it to make space when necessary.
+
+### Distributed Cache
+
+![distributed-cache](https://raw.githubusercontent.com/karanpratapsingh/portfolio/master/public/static/courses/system-design/chapter-I/caching/distributed-cache.png)
+
+A distributed cache is a system that pools together the random-access memory (RAM) of multiple networked computers into a single in-memory data store used as a data cache to provide fast access to data. While most caches are traditionally in one physical server or hardware component, a distributed cache can grow beyond the memory limits of a single computer by linking together multiple computers.
+
+### Global Cache
+
+![global-cache](https://raw.githubusercontent.com/karanpratapsingh/portfolio/master/public/static/courses/system-design/chapter-I/caching/global-cache.png)
+
+As the name suggests, we will have a single shared cache that all the application nodes will use. When the requested data is not found in the global cache, it's the responsibility of the cache to find out the missing piece of data from the underlying data store.
+
+### Caching Use cases
+
+Caching can have many real-world use cases such as:
+
+- Database Caching
+- Content Delivery Network (CDN)
+- Domain Name System (DNS) Caching
+- API Caching
+
+**When not to use caching?**
+
+Let's also look at some scenarios where we should not use cache:
+
+- Caching isn't helpful when it takes just as long to access the cache as it does to access the primary data store.
+- Caching doesn't work as well when requests have low repetition (higher randomness), because caching performance comes from repeated memory access patterns.
+- Caching isn't helpful when the data changes frequently, as the cached version gets out of sync, and the primary data store must be accessed every time.
+
+_It's important to note that a cache should not be used as permanent data storage. They are almost always implemented in volatile memory because it is faster, and thus should be considered transient._
+
+### Caching Advantages
+
+Below are some advantages of caching:
+
+- Improves performance
+- Reduce latency
+- Reduce load on the database
+- Reduce network cost
+- Increase Read Throughput
+
+### Caching Examples
+
+Here are some commonly used technologies for caching:
+
+- [Redis](https://redis.io)
+- [Memcached](https://memcached.org)
+- [Amazon Elasticache](https://aws.amazon.com/elasticache)
+- [Aerospike](https://aerospike.com)
+
 ## Practice Session
 
 ## More Resources For System Design
